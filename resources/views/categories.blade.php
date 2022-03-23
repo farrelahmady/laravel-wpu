@@ -1,11 +1,26 @@
 @extends('layouts.main')
 
 @section('container')
-    <h1>{{ $title }}</h1>
+    <h1 class="mb-4">{{ $title }}</h1>
 
-    @foreach ($categories as $category)
-        <h2>
-            <a href="/categories/{{ $category->slug }}">{{ $category->name }}</a>
-        </h2>
-    @endforeach
+    <div class="container">
+        <div class="row">
+            @foreach ($categories as $category)
+                <div class="col-md-4">
+                    <a href="/categories/{{ $category->slug }}">
+                        <div class="card bg-dark text-white">
+                            <img src="https://source.unsplash.com/500x500?{{ $category->name }}" class="card-img"
+                                alt="{{ $category->name }}">
+                            <div
+                                class="card-img-overlay d-flex align-items-center justify-content-center bg-black bg-opacity-50">
+                                <h3>
+                                    {{ $category->name }}
+                                </h3>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            @endforeach
+        </div>
+    </div>
 @endsection

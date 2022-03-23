@@ -5,6 +5,7 @@ use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,13 +20,15 @@ use App\Http\Controllers\CategoryController;
 
 Route::get('/', function () {
     return view('home', [
-        "title" => "Home"
+        "title" => "Home",
+        "active" => 'home'
     ]);
 });
 
 Route::get('/about', function () {
     return view('about', [
         "title" => "About",
+        "active" => 'about',
         "name" => "Farrel Ahmad Yudithia",
         "email" => "farrelfay.ce@gmail.com",
         "image" => "farrel.webp"
@@ -37,3 +40,5 @@ Route::get('/blog/{post:slug}', [PostController::class, 'show']); // single post
 
 Route::get('/categories', [CategoryController::class, 'index']);
 Route::get('/categories/{category:slug}', [CategoryController::class, 'show']);
+
+Route::get('/authors/{author:username}', [UserController::class, 'show']);
