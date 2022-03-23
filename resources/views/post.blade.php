@@ -8,6 +8,9 @@
                 <h2>
                     {{ $post->title }}
                 </h2>
-                {!! $post->body !!}
+                <h5>by <a href="#" class="text-decoration-none">{{ $post->user->name }}</a> in <a
+                        href="/categories/{{ $post->category->slug }}"
+                        class="text-decoration-none">{{ $post->category->name }}</a></h5>
+                <p>{!! $post->body !!}</p>
             </div>
         @endsection
