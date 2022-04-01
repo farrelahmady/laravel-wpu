@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container">
-        <a class="navbar-brand" href="/">Laravel | </a>
+        <a class="navbar-brand" href="/">Laravel</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
             aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -11,6 +11,11 @@
                 <a class="nav-link {{ $active === 'about' ? 'active' : '' }}" href="/about">About</a>
                 <a class="nav-link {{ $active === 'blog' ? 'active' : '' }}" href="/blog">Blog</a>
                 <a class="nav-link {{ $active === 'categories' ? 'active' : '' }}" href="/categories">Category</a>
+            </div>
+
+            <div class="navbar-nav ms-auto">
+                <a href="/login#sign-in" class="nav-link {{ $active === 'login' ? 'active' : '' }}">Sign In <i
+                        class="bi bi-box-arrow-in-left"></i></a>
             </div>
         </div>
     </div>

@@ -10,8 +10,9 @@
                             <h2>
                                 {{ $post->title }}
                             </h2>
-                            <h5>by <a href="#" class="text-decoration-none">{{ $post->author->name }}</a> in <a
-                                    href="/categories/{{ $post->category->slug }}"
+                            <h5>by <a href="/blog?author={{ $post->author->username }}"
+                                    class="text-decoration-none">{{ $post->author->name }}</a>
+                                in <a href="/blog?category={{ $post->category->slug }}"
                                     class="text-decoration-none">{{ $post->category->name }}</a></h5>
                             <img src="https://source.unsplash.com/1200x400?{{ $post->category->name }}"
                                 class="card-img-top" alt="{{ $post->title }}">
