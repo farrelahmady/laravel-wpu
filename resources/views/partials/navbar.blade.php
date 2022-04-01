@@ -14,8 +14,31 @@
             </div>
 
             <div class="navbar-nav ms-auto">
-                <a href="/login#sign-in" class="nav-link {{ $active === 'login' ? 'active' : '' }}">Sign In <i
-                        class="bi bi-box-arrow-in-left"></i></a>
+                @auth
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Welcome back, {{ auth()->user()->name }}
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="/dashboard">My Dashboard</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+
+                            <li>
+                                <form action="/logout" method="post">
+                                    @csrf
+                                    <button type="submit" class="dropdown-item">Logout <i
+                                            class="bi bi-box-arrow-in-right"></i></button>
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
+                @else
+                    <a href="/login#sign-in" class="nav-link {{ $active === 'login' ? 'active' : '' }}">Sign In <i
+                            class="bi bi-box-arrow-in-left"></i></a>
+                @endauth
             </div>
         </div>
     </div>
