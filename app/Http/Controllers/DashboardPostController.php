@@ -6,6 +6,7 @@ use App\Models\Post;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 use \Cviebrock\EloquentSluggable\Services\SlugService;
 
 class DashboardPostController extends Controller
@@ -42,12 +43,19 @@ class DashboardPostController extends Controller
      */
     public function store(Request $request)
     {
+
         $validatedData = $request->validate([
             'title' => ['required', 'max:255'],
             'slug' => ['required', 'unique:posts'],
             'category_id' => ['required'],
+            'image' => ['image'],
             'body' => ['required']
         ]);
+
+        // if user upload an image then store
+        if ($request->file('image')) {
+            $validatedData['image'] = $request->file('image')->store('post-images');
+        }
 
         $validatedData['user_id'] = auth()->user()->id;
         $validatedData['excerpt'] = Str::limit(strip_tags($request->body), 50, '...'); //strip_tags for removing every html tags
@@ -97,10 +105,20 @@ class DashboardPostController extends Controller
             'title' => ['required', 'max:255'],
             'slug' => ['required', "unique:posts,slug,$post->id"], //unique::tableName,columnName,ignoreSpecifyData
             'category_id' => ['required'],
+            'image' => ['image'],
             'body' => ['required']
         ];
-
         $validatedData = $request->validate($rules);
+
+        // if user upload an image then store
+        if ($request->file('image')) {
+            // delete image if user upload new file
+            if ($request->oldImage) {
+                Storage::delete($request->oldImage);
+            }
+
+            $validatedData['image'] = $request->file('image')->store('post-images');
+        }
 
         $validatedData['user_id'] = auth()->user()->id;
         $validatedData['excerpt'] = Str::limit(strip_tags($request->body), 50, '...');
@@ -119,12 +137,16 @@ class DashboardPostController extends Controller
      */
     public function destroy(Post $post)
     {
+        if ($post->image) {
+            Storage::delete($post->image);
+        }
         Post::destroy($post->id);
         return redirect('/dashboard/posts')->with('success', 'Post Has Been Deleted!');
     }
 
     public function createSlug(Request $request)
     {
+
         $slug = SlugService::createSlug(Post::class, 'slug', $request->title);
         return response()->json(['slug' => $slug]);
     }

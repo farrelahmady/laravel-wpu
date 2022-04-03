@@ -6,7 +6,7 @@
     </div>
 
     <div class="col-lg-8">
-        <form action="/dashboard/posts/{{ $post->slug }}" method="POST">
+        <form action="/dashboard/posts/{{ $post->slug }}" method="POST" enctype="multipart/form-data">
             @method('put')
             @csrf
             <div class="mb-3">
@@ -25,6 +25,22 @@
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
+
+            <div class="mb-3">
+                <label for="image" class="form-label">Image</label>
+                <input type="hidden" name="oldImage" value="{{ $post->image }}">
+                @if ($post->image)
+                    <img src="{{ asset('storage/' . $post->image) }}" alt="" class="img-preview img-fluid">
+                @else
+                    <img src="" alt="" class="img-preview img-fluid">
+                @endif
+                <input id="image" class="form-control @error('image') is-invalid @enderror" type="file" id="image"
+                    name="image" onchange="previewImage()">
+                @error('image')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+
             <div class="mb-3">
                 <label for="category" class="form-label text-capitalize">category</label>
                 <select class="form-select @error('category') is-invalid @enderror" name="category_id">
@@ -62,5 +78,19 @@
         document.addEventListener('trix-file-accept', function(e) {
             e.preventDefault();
         })
+
+        function previewImage() {
+            const image = document.querySelector("#image");
+            const imgPreview = document.querySelector(".img-preview")
+
+            imgPreview.style.display = 'block'
+
+            const oFReader = new FileReader();
+            oFReader.readAsDataURL(image.files[0])
+
+            oFReader.onload = function(oFREvent) {
+                imgPreview.src = oFREvent.target.result
+            }
+        }
     </script>
 @endsection

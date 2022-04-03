@@ -28,8 +28,13 @@
                         </form>
                     </div>
 
-                    <img src="https://source.unsplash.com/1200x400?{{ $post->category->name }}" class="card-img-top"
-                        alt="{{ $post->title }}">
+                    @if ($post->image)
+                        <img src="{{ asset('storage/' . $post->image) }}" class="card-img-top"
+                            alt="{{ $post->title }}">
+                    @else
+                        <img src="https://source.unsplash.com/1200x400?{{ $post->category->name }}" class="card-img-top"
+                            alt="{{ $post->title }}">
+                    @endif
                     <article class="my-2">
                         {!! $post->body !!}
                     </article>
