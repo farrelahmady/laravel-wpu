@@ -8,28 +8,28 @@ use Illuminate\Support\Facades\Hash;
 
 class RegisterController extends Controller
 {
-    public function index()
-    {
-        return view('register.index', [
-            'title' => 'Register',
-            'active' => 'register'
-        ]);
-    }
+  public function index()
+  {
+    return view('register.index', [
+      'title' => 'Register',
+      'active' => 'register'
+    ]);
+  }
 
-    public function store(Request $req)
-    {
-        $validatedData = $req->validate([
-            'name' => ['required', 'max:255'],
-            'username' => ['required', 'min:3', 'max:20', 'unique:users'],
-            'email' => ['required', 'email:dns', 'unique:users'],
-            'password' => 'required|min:8|max:255'
-        ]);
+  public function store(Request $req)
+  {
+    $validatedData = $req->validate([
+      'name' => ['required', 'max:255'],
+      'username' => ['required', 'min:3', 'max:20', 'unique:users'],
+      'email' => ['required', 'email:dns', 'unique:users'],
+      'password' => 'required|min:8|max:255'
+    ]);
 
-        $validatedData['password'] = Hash::make($validatedData['password']);
+    $validatedData['password'] = Hash::make($validatedData['password']);
 
-        User::create($validatedData);
+    User::create($validatedData);
 
-        // $req->session()->flash('success', 'Registered Succesfully');
-        return redirect('/login')->with('success', 'Registered Succesfully');
-    }
+    // $req->session()->flash('success', 'Registered Succesfully');
+    return redirect('/login')->with('success', 'Registered Succesfully');
+  }
 }

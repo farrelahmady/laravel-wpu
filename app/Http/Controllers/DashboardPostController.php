@@ -52,6 +52,13 @@ class DashboardPostController extends Controller
             'body' => ['required']
         ]);
 
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $image_name = $image->getClientOriginalName();
+            $image->move(public_path('/images'), $image_name);
+
+            $image_path = "/images/" . $image_name;
+        }
         // if user upload an image then store
         if ($request->file('image')) {
             $validatedData['image'] = $request->file('image')->store('post-images');
